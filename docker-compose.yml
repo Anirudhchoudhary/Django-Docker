@@ -1,0 +1,31 @@
+version: "3"
+
+services:
+  django:
+    container_name: django_app
+    build:
+      context: testproject/
+      dockerfile: Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./django_app:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+     - db
+  
+  db:
+    container_name: mysql_db
+    image: mysql:8.0-debian
+    environment:
+      MYSQL_ROOT_PASSWORD: Qwerty@12345
+      MYSQL_DATABASE: testserver
+      MYSQL_USER: anirudh
+      MYSQL_PASSWORD: Anirudh@9911072100
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
